@@ -23,6 +23,13 @@ class LiveChatConfig
         public string $whatsAppUrl,
         public bool $enabled,
         public string $loginUrl,
+        public string $position,
+        public string $zIndex,
+        public string $left,
+        public string $right,
+        public string $bottom,
+        public string $top,
+        public string $margin,
     ) {
     }
 
@@ -41,12 +48,19 @@ class LiveChatConfig
         }
 
         return new self(
-            (int)$data['avatarAssetId'][0],
+            (int)$data['avatarAssetId'],
             $data['title'],
             $data['description'],
             $data['whatsAppUrl'],
             (bool)$data['enabled'],
-            '/actions/whatsrabbit-live-chat/login/get-token'
+            '/actions/whatsrabbit-live-chat/login/get-token',
+            $data['position'],
+            $data['zIndex'],
+            $data['left'],
+            $data['right'],
+            $data['bottom'],
+            $data['top'],
+            $data['margin'],
         );
     }
 
@@ -58,7 +72,14 @@ class LiveChatConfig
             $settings->description,
             $settings->whatsapp_url,
             (bool)$settings->enabled,
-            '/actions/whatsrabbit-live-chat/login/get-token'
+            '/actions/whatsrabbit-live-chat/login/get-token',
+            $settings->position,
+            $settings->z_index,
+            $settings->left,
+            $settings->right,
+            $settings->bottom,
+            $settings->top,
+            $settings->margin,
         );
     }
 }

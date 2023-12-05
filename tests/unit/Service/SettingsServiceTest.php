@@ -36,6 +36,13 @@ class SettingsServiceTest extends TestCase
             'avatarAssetId' => ['some-avatar-id'],
             'whatsAppUrl' => 'https://wa.me',
             'enabled' => true,
+            'position' => 'fixed',
+            'zIndex' => '10',
+            'left' => 'inherit',
+            'right' => '0',
+            'bottom' => '0',
+            'top' => 'inherit',
+            'margin' => '20px',
         ]);
         $response = $this->service->saveSettings($liveChatConfig);
         $this->assertTrue($response);
@@ -51,6 +58,13 @@ class SettingsServiceTest extends TestCase
             'avatarAssetId' => ['some-avatar-id'],
             'whatsAppUrl' => 'https://wa.me',
             'enabled' => true,
+            'position' => 'fixed',
+            'zIndex' => '10',
+            'left' => 'inherit',
+            'right' => '0',
+            'bottom' => '0',
+            'top' => 'inherit',
+            'margin' => '20px',
         ]);
         $this->service->saveSettings($liveChatConfig);
         $settings = $this->service->getSettings();

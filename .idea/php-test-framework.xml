@@ -11,4 +11,15 @@
       </tool>
     </test_tools>
   </component>
+  <component name="PhpTestFrameworkVersionCache">
+    <tools_cache>
+      <tool tool_name="Codeception">
+        <cache>
+          <versions>
+            <info id="interpreter-3225616f-683c-4982-a501-039ad01efb73/var/www/html/vendor/codeception/codeception/codecept" version="5.0.10" />
+          </versions>
+        </cache>
+      </tool>
+    </tools_cache>
+  </component>
 </project>

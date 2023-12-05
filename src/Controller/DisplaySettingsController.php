@@ -8,10 +8,12 @@ use Craft;
 use craft\web\Controller;
 use craft\web\View;
 use NetAnts\WhatsRabbitLiveChat\Exception\InvalidDataException;
+use NetAnts\WhatsRabbitLiveChat\Model\DisplayOptions;
 use NetAnts\WhatsRabbitLiveChat\Model\DisplaySettings;
 use NetAnts\WhatsRabbitLiveChat\Plugin;
 use NetAnts\WhatsRabbitLiveChat\Service\SettingsService;
 use NetAnts\WhatsRabbitLiveChat\ValueObject\LiveChatConfig;
+use Throwable;
 use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
 use yii\base\Module;
@@ -51,31 +53,23 @@ class DisplaySettingsController extends Controller
     public function actionSave(): ?Response
     {
         $data = $this->request->getBodyParams();
-        $avatarAssetId = $data['avatarAssetId'] ?? null;
-        if (is_array($avatarAssetId)) {
-            $avatarAssetId = (int) $avatarAssetId[0];
-        }
-        $this->displaySettings->setAttributes([
-            'avatarAssetId' => $avatarAssetId,
-            'title' => $data['title'] ?? null,
-            'description' => $data['description'] ?? null,
-            'whatsAppUrl' => $data['whatsAppUrl'] ?? null,
-            'enabled' => (bool)($data['enabled'] ?? false),
-        ]);
+        $data['avatarAssetId'] = $data['avatarAssetId'][0] ?? null;
+
+        $this->displaySettings->setAttributes($data);
 
 
         if (!$this->displaySettings->validate()) {
             return $this->asModelFailure(
                 $this->displaySettings,
-                Craft::t('whatsrabbit-live-chat', 'Something went wrong!'), // Flash message
+                'Something went wrong!', // Flash message
                 'displaySettings'// Route param key
             );
         }
 
         try {
             $liveChatConfig = LiveChatConfig::createFromRequest($data);
-        } catch (InvalidDataException $e) {
-            $this->craft::$app->session->setError('Something went wrong while creating config' . $e->getMessage());
+        } catch (Throwable $e) {
+            $this->craft::$app->session->setError('Something went wrong while creating config: ' . $e->getMessage());
             return $this->redirectToPostedUrl();
         }
 
@@ -100,7 +94,14 @@ class DisplaySettingsController extends Controller
             'description' => $settings?->description,
             'title' => $settings?->title,
             'whatsAppUrl' => $settings?->whatsAppUrl,
-            'enabled' => $settings?->enabled
+            'enabled' => $settings?->enabled,
+            'position' => $settings->position ?? 'fixed' ,
+            'zIndex' => $settings->zIndex ?? '10' ,
+            'left' => $settings->left ?? 'inherit' ,
+            'right' => $settings->right ?? '0' ,
+            'bottom' => $settings->bottom ?? '0' ,
+            'top' => $settings->top ?? 'inherit' ,
+            'margin' => $settings->margin ?? '20px' ,
         ]);
     }
 }

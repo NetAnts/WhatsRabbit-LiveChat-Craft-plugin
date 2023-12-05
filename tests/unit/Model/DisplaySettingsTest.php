@@ -11,6 +11,10 @@ class DisplaySettingsTest extends TestCase
     {
         $settings = new DisplaySettings();
         $rules = $settings->rules();
-        $this->assertSame([[['title', 'whatsAppUrl', 'description', 'avatarAssetId'], 'required'], [['enabled'], 'boolean']], $rules);
+        $this->assertSame([
+            [['title', 'whatsAppUrl', 'description', 'avatarAssetId'], 'required'],
+            [['enabled'], 'boolean'],
+            [['position', 'zIndex', 'left', 'right', 'bottom', 'top', 'margin'], 'string']
+        ], $rules);
     }
 }

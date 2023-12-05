@@ -1,2 +1,2 @@
 #!/bin/sh
-docker-compose exec -w /var/www/html plugin ./vendor/bin/codecept "${@}"
+docker compose exec -w /var/www/html plugin ./vendor/bin/codecept "${@}"

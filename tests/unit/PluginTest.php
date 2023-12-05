@@ -57,6 +57,13 @@ class PluginTest extends TestCase
             'avatarAssetId' => ['some-avatar-id'],
             'whatsAppUrl' => 'https://wa.me',
             'enabled' => true,
+            'position' => 'fixed',
+            'zIndex' => '10',
+            'left' => 'inherit',
+            'right' => '0',
+            'bottom' => '0',
+            'top' => 'inherit',
+            'margin' => '20px',
         ]));
         $settingsServiceProperty = new \ReflectionProperty(Plugin::class, 'service');
         $settingsServiceProperty->setAccessible(true);
@@ -79,7 +86,7 @@ class PluginTest extends TestCase
         $this->assertCount(1, $event->navItems);
         $expectedNavItem = [
             'url' => 'whatsrabbit-live-chat/display-settings/edit',
-            'label' => 'What\'sRabbit LiveChat',
+            'label' => 'What\'sRabbit Live-chat',
             'icon' => '@NetAnts/WhatsRabbitLiveChat/icon.svg',
         ];
 
@@ -135,6 +142,8 @@ class PluginTest extends TestCase
                                     whatsapp-url=""
                                     welcome-title=""
                                     welcome-description=""
+                                    display-options="{&quot;position&quot;:null,&quot;z-index&quot;:null,&quot;left&quot;:null,' .
+                                    '&quot;right&quot;:null,&quot;bottom&quot;:null,&quot;top&quot;:null,&quot;margin&quot;:null}"
                                 ></whatsrabbit-live-chat-widget>';
         $this->assertSame(preg_replace("(\s+)", "\s", $expectedHtml), preg_replace("(\s+)", "\s", $response));
     }

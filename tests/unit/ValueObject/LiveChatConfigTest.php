@@ -18,6 +18,13 @@ class LiveChatConfigTest extends \Codeception\PHPUnit\TestCase
             'avatarAssetId' => ['some-avatar-id'],
             'enabled' => true,
             'whatsAppUrl' => 'https://wa.me',
+            'position' => 'fixed',
+            'zIndex' => '10',
+            'left' => 'inherit',
+            'right' => '0',
+            'bottom' => '0',
+            'top' => 'inherit',
+            'margin' => '20px',
         ]);
     }
 
@@ -29,6 +36,13 @@ class LiveChatConfigTest extends \Codeception\PHPUnit\TestCase
             'avatarAssetId' => [42],
             'enabled' => true,
             'whatsAppUrl' => 'https://wa.me',
+            'position' => 'fixed',
+            'zIndex' => '10',
+            'left' => 'inherit',
+            'right' => '0',
+            'bottom' => '0',
+            'top' => 'inherit',
+            'margin' => '20px',
         ]);
 
         $this->assertInstanceOf(LiveChatConfig::class, $config);
@@ -42,6 +56,13 @@ class LiveChatConfigTest extends \Codeception\PHPUnit\TestCase
             'avatar_asset_id' => 42,
             'enabled' => true,
             'whatsapp_url' => 'https://wa.me',
+            'position' => 'fixed',
+            'z_index' => '10',
+            'left' => 'inherit',
+            'right' => '0',
+            'bottom' => '0',
+            'top' => 'inherit',
+            'margin' => '20px',
         ]);
         $config = LiveChatConfig::createFromDatabase($settings);
 

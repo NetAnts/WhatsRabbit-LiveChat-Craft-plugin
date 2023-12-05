@@ -1,6 +1,6 @@
 {
     "name": "netants/whatsrabbit-live-chat",
-    "description": "This plugin provides a What'sRabbit LiveChat widget for your CraftCMS website",
+    "description": "This plugin provides a What'sRabbit Live-chat widget for your CraftCMS website",
     "license": "MIT",
     "type": "craft-plugin",
     "authors": [
@@ -36,7 +36,7 @@
         "ci-phpcs": "@cs-check --report=junit --report-file=./.coverage/.phpcs-junit-report.xml"
     },
     "extra": {
-        "name": "What'sRabbit LiveChat",
+        "name": "What'sRabbit Live-chat",
         "handle": "whatsrabbit-live-chat"
     },
     "config": {

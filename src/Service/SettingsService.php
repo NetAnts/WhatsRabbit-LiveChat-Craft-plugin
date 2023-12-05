@@ -31,6 +31,13 @@ class SettingsService
         $settings->avatar_asset_id = $liveChatConfig->avatarAssetId;
         $settings->whatsapp_url = $liveChatConfig->whatsAppUrl;
         $settings->enabled = $liveChatConfig->enabled;
+        $settings->position = $liveChatConfig->position;
+        $settings->z_index = $liveChatConfig->zIndex;
+        $settings->left = $liveChatConfig->left;
+        $settings->right = $liveChatConfig->right;
+        $settings->bottom = $liveChatConfig->bottom;
+        $settings->top = $liveChatConfig->top;
+        $settings->margin = $liveChatConfig->margin;
         return  $settings->save();
     }
 

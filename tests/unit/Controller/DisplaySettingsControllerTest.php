@@ -11,6 +11,7 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery\MockInterface;
 use NetAnts\WhatsRabbitLiveChat\Controller\DisplaySettingsController;
+use NetAnts\WhatsRabbitLiveChat\Exception\InvalidDataException;
 use NetAnts\WhatsRabbitLiveChat\Model\DisplaySettings;
 use NetAnts\WhatsRabbitLiveChat\Service\SettingsService;
 use NetAnts\WhatsRabbitLiveChat\ValueObject\LiveChatConfig;
@@ -39,6 +40,13 @@ class DisplaySettingsControllerTest extends TestCase
             'title' => 'some-title',
             'whatsAppUrl' => 'some-url',
             'enabled' => true,
+            'position' => 'fixed',
+            'zIndex' => '10',
+            'left' => 'inherit',
+            'right' => '0',
+            'bottom' => '0',
+            'top' => 'inherit',
+            'margin' => '20px',
         ]));
         $this->controller = new DisplaySettingsController($id, $module, $this->settingsService, $this->craft, $config);
     }
@@ -55,6 +63,13 @@ class DisplaySettingsControllerTest extends TestCase
             'avatarAssetId' => ['some-avatar-id'],
             'whatsAppUrl' => 'https://wa.me',
             'enabled' => true,
+            'position' => 'fixed',
+            'zIndex' => '10',
+            'left' => 'inherit',
+            'right' => '0',
+            'bottom' => '0',
+            'top' => 'inherit',
+            'margin' => '20px',
         ]);
         $request->expects('getValidatedBodyParam')->andReturn(null);
         $request->expects('getPathInfo')->andReturn('/api');
@@ -66,33 +81,24 @@ class DisplaySettingsControllerTest extends TestCase
         $this->assertTrue($response->getIsRedirection());
     }
 
-    public function testActionSaveLiveChatConfigInvalid(): void
-    {
-        $request = Mockery::mock(Request::class);
-        $request->expects('getBodyParams')->andReturn([
-            'title' => 'Some title',
-            'description' => 'Some description',
-            'avatarAssetId' => ['some-avatar-id'],
-        ]);
-        $request->expects('getAcceptsJson')->andReturnTrue();
 
-        $this->controller->request = $request;
-        $response = $this->controller->actionSave();
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertSame(400, $response->getStatusCode());
-    }
 
     public function testActionSaveFails(): void
     {
         $request = Mockery::mock(Request::class);
         $request->expects('getBodyParams')->andReturn([
-            'apiKey' => 'some-api-key',
-            'apiSecret' => 'some-api-secret',
-            'title' => 'Some title',
+            'title' => 'some title',
             'description' => 'Some description',
             'avatarAssetId' => ['some-avatar-id'],
             'whatsAppUrl' => 'https://wa.me',
             'enabled' => true,
+            'position' => 'fixed',
+            'zIndex' => '10',
+            'left' => 'inherit',
+            'right' => '0',
+            'bottom' => '0',
+            'top' => 'inherit',
+            'margin' => '20px',
         ]);
         $request->expects('getValidatedBodyParam')->andReturn(null);
         $request->expects('getPathInfo')->andReturn('/api');
@@ -107,6 +113,30 @@ class DisplaySettingsControllerTest extends TestCase
         );
     }
 
+    public function testModelValidationError()
+    {
+        $request = Mockery::mock(Request::class);
+        $request->expects('getBodyParams')->andReturn([
+            'title' => null,
+            'description' => 'Some description',
+            'avatarAssetId' => ['some-avatar-id'],
+            'whatsAppUrl' => 'https://wa.me',
+            'enabled' => true,
+            'position' => 'fixed',
+            'zIndex' => '10',
+            'left' => 'inherit',
+            'right' => '0',
+            'bottom' => '0',
+            'top' => 'inherit',
+            'margin' => '20px',
+        ]);
+        $request->expects('getAcceptsJson')->andReturnTrue();
+        $this->controller->request = $request;
+        $response = $this->controller->actionSave();
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertSame(400, $response->getStatusCode());
+    }
+
     public function testActionSaveButLiveChatConfigCannotBeCreated(): void
     {
         $request = Mockery::mock(Request::class);
@@ -116,15 +146,23 @@ class DisplaySettingsControllerTest extends TestCase
             'title' => 'Some title',
             'description' => 'Some description',
             'avatarAssetId' => ['some-avatar-id'],
-            'enabled' => true,
+            'whatsAppUrl' => true,
+            'enabled' => 'true',
+            'position' => 'fixed',
+            'zIndex' => '10',
+            'left' => 'inherit',
+            'right' => '0',
+            'bottom' => '0',
+            'top' => 'inherit',
+            'margin' => '20px',
         ]);
         $request->expects('getValidatedBodyParam')->andReturn(null);
-        $request->expects('getAcceptsJson')->andReturnFalse();
+        $request->expects('getPathInfo')->andReturn('/api');
         $this->controller->request = $request;
-        $response = $this->controller->actionSave();
-        $this->assertNull($response);
-        $this->assertSame(
-            'Something went wrong!',
+        $this->controller->actionSave();
+        $this->assertStringStartsWith(
+            'Something went wrong while creating config: NetAnts\WhatsRabbitLiveChat\ValueObject\LiveChatConfig::__construct(): ' .
+            'Argument #4 ($whatsAppUrl) must be of type string, bool given, called in',
             $this->craft::$app->session->getError()
         );
     }

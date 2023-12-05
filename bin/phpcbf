@@ -1,2 +1,2 @@
 #!/bin/sh
-docker-compose exec plugin ./vendor/bin/phpcbf
+docker compose exec plugin ./vendor/bin/phpcbf

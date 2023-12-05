@@ -2,7 +2,6 @@
 
 namespace NetAnts\WhatsRabbitLiveChat\migrations;
 
-use Craft;
 use craft\db\Migration;
 
 /**
@@ -26,6 +25,13 @@ class Install extends Migration
                 'description' => $this->string()->notNull(),
                 'whatsapp_url' => $this->string()->notNull(),
                 'enabled' => $this->tinyInteger()->notNull()->defaultValue(1),
+                'position' => $this->string()->defaultValue('fixed'),
+                'z_index' => $this->string()->defaultValue('10'),
+                'left' => $this->string()->defaultValue('inherit'),
+                'right' => $this->string()->defaultValue('0'),
+                'bottom' => $this->string()->defaultValue('0'),
+                'top' => $this->string()->defaultValue('inherit'),
+                'margin' => $this->string()->defaultValue('20px'),
             ]
         );
 

@@ -12,11 +12,20 @@ class DisplaySettings extends Model
     public string $whatsAppUrl = '';
     public bool $enabled = true;
 
+    public string $position = 'fixed';
+    public string $zIndex = '10';
+    public string $left = 'inherit';
+    public string $right = '0';
+    public string $bottom = '0';
+    public string $top = 'inherit';
+    public string $margin = '20px';
+
     public function rules(): array
     {
         return [
-            [['title','whatsAppUrl', 'description', 'avatarAssetId'], 'required'],
+            [['title', 'whatsAppUrl', 'description', 'avatarAssetId'], 'required'],
             [['enabled'], 'boolean'],
+            [['position', 'zIndex', 'left', 'right', 'bottom', 'top', 'margin'], 'string']
         ];
     }
 }

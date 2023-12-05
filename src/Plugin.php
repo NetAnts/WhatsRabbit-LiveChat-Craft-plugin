@@ -61,7 +61,7 @@ class Plugin extends \craft\base\Plugin
             );
 
             /**
-             * Register live chat hook and files
+             * Register Live-chat hook and files
              */
 
             $pluginAssetsUrl = getenv('LIVECHAT_ASSETS_DOMAIN') ?: self::LIVECHAT_ASSETS_DOMAIN;
@@ -70,9 +70,9 @@ class Plugin extends \craft\base\Plugin
             if ($this->service->getSettings()?->enabled && !Craft::$app->request->isCpRequest) {
                 Craft::$app->getView()->registerHtml($this->getLiveChatWidget());
             }
-            Craft::$app->getView()->registerCssFile(sprintf('https://%s/styles.css', $pluginAssetsUrl));
-            Craft::$app->getView()->registerJsFile(sprintf('https://%s/polyfills.js', $pluginAssetsUrl));
-            Craft::$app->getView()->registerJsFile(sprintf('https://%s/main.js', $pluginAssetsUrl));
+            Craft::$app->getView()->registerCssFile(sprintf('//%s/styles.css', $pluginAssetsUrl));
+            Craft::$app->getView()->registerJsFile(sprintf('//%s/polyfills.js', $pluginAssetsUrl));
+            Craft::$app->getView()->registerJsFile(sprintf('//%s/main.js', $pluginAssetsUrl));
         }
     }
 
@@ -80,7 +80,7 @@ class Plugin extends \craft\base\Plugin
     {
         $event->navItems[] = [
             'url' => 'whatsrabbit-live-chat/display-settings/edit',
-            'label' => 'What\'sRabbit LiveChat',
+            'label' => 'What\'sRabbit Live-chat',
             'icon' => '@NetAnts/WhatsRabbitLiveChat/icon.svg'
 
         ];
@@ -103,6 +103,16 @@ class Plugin extends \craft\base\Plugin
 
         $asset = Craft::$app->assets->getAssetById((int)$settings?->avatarAssetId);
 
+        $displayOptions = [
+            'position' => $settings?->position,
+            'z-index' => $settings?->zIndex,
+            'left' => $settings?->left,
+            'right' => $settings?->right,
+            'bottom' => $settings?->bottom,
+            'top' => $settings?->top,
+            'margin' => $settings?->margin,
+        ];
+
         return sprintf(
             '<whatsrabbit-live-chat-widget
                         avatar-url="%s"
@@ -110,12 +120,14 @@ class Plugin extends \craft\base\Plugin
                         whatsapp-url="%s"
                         welcome-title="%s"
                         welcome-description="%s"
+                        display-options="%s"
                     ></whatsrabbit-live-chat-widget>',
             $asset?->url,
             '/actions/whatsrabbit-live-chat/login/get-token',
             $settings?->whatsAppUrl,
             $settings?->title,
-            $settings?->description
+            $settings?->description,
+            htmlspecialchars(json_encode($displayOptions))
         );
     }
 
